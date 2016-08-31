@@ -23,6 +23,8 @@ import com.ufc.json.CalendarDeserialize;
 import com.ufc.json.CalendarSerialize;
 import com.ufc.json.View;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Ideia {
 
@@ -47,9 +49,11 @@ public class Ideia {
 	@JoinTable(name = "autor", joinColumns = @JoinColumn(name = "ideia_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
 	private List<Pessoa> autores;
 
+	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "ideia", cascade = CascadeType.MERGE)
 	private List<Avaliacao> avaliacoes;
 
+	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "ideia", cascade = CascadeType.MERGE)
 	private List<Comentario> comentarios;
 
