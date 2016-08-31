@@ -16,9 +16,12 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ufc.json.View;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Pessoa {
 
+	@ApiModelProperty(value = "")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonView(View.Pessoa.class)
@@ -32,20 +35,25 @@ public class Pessoa {
 
 	private String senha;
 
+	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "moderador", cascade = CascadeType.MERGE)
 	private List<Discussao> discussoes;
 
+	@ApiModelProperty(hidden = true)
 	@ManyToMany
 	@JoinTable(name = "participacao", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "discussao_id"))
 	private List<Discussao> participacoes;
 
+	@ApiModelProperty(hidden = true)
 	@ManyToMany
 	@JoinTable(name = "autor", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "ideia_id"))
 	private List<Ideia> ideias;
 
+	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "autor")
 	private List<Avaliacao> avaliacoes;
 
+	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "autor")
 	private List<Comentario> comentarios;
 

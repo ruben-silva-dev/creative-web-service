@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ufc.json.View;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Discussao {
 
@@ -43,10 +45,12 @@ public class Discussao {
 	@ManyToOne
 	private Pessoa moderador;
 
+	@ApiModelProperty(hidden = true)
 	@ManyToMany
 	@JoinTable(name = "participacao", joinColumns = @JoinColumn(name = "discussao_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
 	private List<Pessoa> participantes;
 
+	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "discussao", cascade = CascadeType.MERGE)
 	private List<Ideia> ideias;
 

@@ -20,6 +20,10 @@ import com.ufc.model.Ideia;
 import com.ufc.repository.IdeiaRepository;
 import com.ufc.service.IIdeiaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "Módulo de ideias")
 @RestController
 @Transactional
 @RequestMapping(value = "/discussoes/{idDiscussao}")
@@ -31,14 +35,17 @@ public class IdeiaController {
 	@Autowired
 	private IIdeiaService ideiaService;
 
+	@ApiOperation(value = "Retorna todas as ideias de uma discussão")
 	@JsonView(View.Ideia.class)
 	@RequestMapping(value = "/ideias", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<Ideia> getIdeias(@PathVariable Long idDiscussao) {
 		return ideiaRepository.findByDiscussao_id(idDiscussao);
 	}
 
+	@ApiOperation(value = "Adiciona uma nova ideia em uma discussão")
 	@RequestMapping(value = "/ideias", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> adicionarIdeia(@PathVariable("idDiscussao") Discussao discussao, @RequestBody Ideia ideia) {
+	public ResponseEntity<String> adicionarIdeia(@PathVariable("idDiscussao") Discussao discussao,
+			@RequestBody Ideia ideia) {
 		ideiaService.adicionar(discussao, ideia);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
