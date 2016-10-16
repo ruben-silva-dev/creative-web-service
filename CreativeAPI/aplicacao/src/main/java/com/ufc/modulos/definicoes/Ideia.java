@@ -1,13 +1,19 @@
-package com.ufc.modulos.brainwriting.model;
+package com.ufc.modulos.definicoes;
 
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -16,30 +22,28 @@ import com.ufc.util.json.CalendarDeserialize;
 import com.ufc.util.json.CalendarSerialize;
 
 @Entity
-public class Comentario {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Ideia {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonView(BrainwritingViews.ComentarioView.class)
+	@SequenceGenerator(name = "ideia_id", sequenceName = "ideia_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ideia_id")
 	private Long id;
 
 	@Column(columnDefinition = "TEXT")
-	@JsonView(BrainwritingViews.ComentarioView.class)
 	private String texto;
 
 	@JsonSerialize(using = CalendarSerialize.class)
 	@JsonDeserialize(using = CalendarDeserialize.class)
-	@JsonView(BrainwritingViews.ComentarioView.class)
 	private Calendar data;
 
 	@ManyToOne
-	@JsonView(BrainwritingViews.ComentarioView.class)
-	private PessoaBrainwriting autor;
+	private Tecnica tecnica;
 
-	@ManyToOne
-	@JsonView(BrainwritingViews.ComentarioView.class)
-	private IdeiaBrainwriting ideia;
+	@OneToMany(mappedBy = "ideiaRaiz", cascade = CascadeType.MERGE)
+	private List<Relacionamento> relacionamentos;
 
+	@JsonView(GeneralViews.RelacionamentoView.class)
 	public Long getId() {
 		return id;
 	}
@@ -64,20 +68,20 @@ public class Comentario {
 		this.data = data;
 	}
 
-	public PessoaBrainwriting getAutor() {
-		return autor;
+	public Tecnica getTecnica() {
+		return tecnica;
 	}
 
-	public void setAutor(PessoaBrainwriting autor) {
-		this.autor = autor;
+	public void setTecnica(Tecnica tecnica) {
+		this.tecnica = tecnica;
 	}
 
-	public IdeiaBrainwriting getIdeia() {
-		return ideia;
+	public List<Relacionamento> getRelacionamentos() {
+		return relacionamentos;
 	}
 
-	public void setIdeia(IdeiaBrainwriting ideia) {
-		this.ideia = ideia;
+	public void setRelacionamentos(List<Relacionamento> relacionamentos) {
+		this.relacionamentos = relacionamentos;
 	}
 
 	@Override
@@ -96,7 +100,7 @@ public class Comentario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comentario other = (Comentario) obj;
+		Ideia other = (Ideia) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -104,5 +108,4 @@ public class Comentario {
 			return false;
 		return true;
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.ufc.modulos.pessoas;
+package com.ufc.modulos.definicoes;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,25 +6,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.TableGenerator;
-
-import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.util.json.View;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
 
 	@Id
-	@TableGenerator(name = "pessoa_id", table = "pessoa_id", pkColumnName = "pos", pkColumnValue = "val", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "pessoa_id")
-	@JsonView({ View.Pessoa.class, View.Avaliacao.class, View.Comentario.class })
+	@SequenceGenerator(name = "pessoa_id", sequenceName = "pessoa_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_id")
 	private Long id;
 
-	@JsonView(View.Pessoa.class)
 	private String nome;
 
-	@JsonView(View.Pessoa.class)
 	private String email;
 
 	private String senha;

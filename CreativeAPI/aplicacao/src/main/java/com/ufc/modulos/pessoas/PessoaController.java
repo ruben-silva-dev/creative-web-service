@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.util.json.View;
+import com.ufc.modulos.brainwriting.model.BrainwritingViews;
+import com.ufc.modulos.definicoes.Pessoa;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,14 +31,14 @@ public class PessoaController {
 	private IPessoaService pessoaService;
 
 	@ApiOperation(value = "Retorna todas as pessoas cadastradas no serviço")
-	@JsonView(View.Pessoa.class)
+	@JsonView(BrainwritingViews.BrainwritingPessoaView.class)
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<Pessoa> getPessoas() {
 		return pessoaRepository.findAll();
 	}
 
 	@ApiOperation(value = "Retorna uma pessoa com base no seu id")
-	@JsonView(View.Pessoa.class)
+	@JsonView(BrainwritingViews.BrainwritingPessoaView.class)
 	@RequestMapping(value = "/{idPessoa}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Pessoa getPessoaPorId(@PathVariable Long idPessoa) {
 		return pessoaRepository.findOne(idPessoa);

@@ -8,7 +8,7 @@ public class AvaliacaoId implements Serializable {
 
 	private PessoaBrainwriting autor;
 
-	private Ideia ideia;
+	private IdeiaBrainwriting ideia;
 
 	public PessoaBrainwriting getAutor() {
 		return autor;
@@ -18,11 +18,11 @@ public class AvaliacaoId implements Serializable {
 		this.autor = autor;
 	}
 
-	public Ideia getIdeia() {
+	public IdeiaBrainwriting getIdeia() {
 		return ideia;
 	}
 
-	public void setIdeia(Ideia ideia) {
+	public void setIdeia(IdeiaBrainwriting ideia) {
 		this.ideia = ideia;
 	}
 

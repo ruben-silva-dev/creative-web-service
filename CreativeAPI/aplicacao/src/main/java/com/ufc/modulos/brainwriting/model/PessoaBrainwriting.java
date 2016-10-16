@@ -10,7 +10,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.ufc.modulos.pessoas.Pessoa;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.ufc.modulos.definicoes.Pessoa;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,7 +24,7 @@ public class PessoaBrainwriting extends Pessoa {
 
 	@ApiModelProperty(hidden = true)
 	@ManyToMany(mappedBy = "autores")
-	private List<Ideia> ideias;
+	private List<IdeiaBrainwriting> ideias;
 
 	@ApiModelProperty(hidden = true)
 	@OneToMany(mappedBy = "autor")
@@ -38,6 +39,24 @@ public class PessoaBrainwriting extends Pessoa {
 	@JoinTable(name = "moderadores", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "brainwriting_id"))
 	private List<Brainwriting> brainwriting;
 
+	@Override
+	@JsonView({ BrainwritingViews.BrainwritingPessoaView.class, BrainwritingViews.AvaliacaoView.class, BrainwritingViews.ComentarioView.class })
+	public Long getId() {
+		return super.getId();
+	}
+
+	@Override
+	@JsonView(BrainwritingViews.BrainwritingPessoaView.class)
+	public String getNome() {
+		return super.getNome();
+	}
+
+	@Override
+	@JsonView(BrainwritingViews.BrainwritingPessoaView.class)
+	public String getEmail() {
+		return super.getEmail();
+	}
+
 	public List<Brainwriting> getParticipacoes() {
 		return participacoes;
 	}
@@ -46,11 +65,11 @@ public class PessoaBrainwriting extends Pessoa {
 		this.participacoes = participacoes;
 	}
 
-	public List<Ideia> getIdeias() {
+	public List<IdeiaBrainwriting> getIdeias() {
 		return ideias;
 	}
 
-	public void setIdeias(List<Ideia> ideias) {
+	public void setIdeias(List<IdeiaBrainwriting> ideias) {
 		this.ideias = ideias;
 	}
 

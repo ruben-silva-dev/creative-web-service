@@ -7,36 +7,23 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.util.json.View;
+import com.ufc.modulos.definicoes.Ideia;
+import com.ufc.modulos.definicoes.Tecnica;
 
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-public class Brainwriting {
+public class Brainwriting extends Tecnica {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonView(View.Discussao.class)
-	private Long id;
-
-	@JsonView(View.Discussao.class)
-	private String titulo;
-
-	@JsonView(View.Discussao.class)
 	private String gatilho;
 
-	@JsonView(View.Discussao.class)
 	private String descricao;
 
-	@JsonView(View.Discussao.class)
 	@Enumerated(EnumType.STRING)
 	private Fase fase;
 
@@ -44,46 +31,33 @@ public class Brainwriting {
 	private List<PessoaBrainwriting> moderadores;
 
 	@ApiModelProperty(hidden = true)
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "participacao", joinColumns = @JoinColumn(name = "brainwriting_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
 	private List<PessoaBrainwriting> participantes;
 
-	@ApiModelProperty(hidden = true)
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "brainwriting_ideia", joinColumns = @JoinColumn(name = "brainwriting_id"), inverseJoinColumns = @JoinColumn(name = "ideia_id"))
-	private List<Ideia> ideias;
-
-	public enum Fase {
-		NOVA("Nova"), RECEBENDO_IDEIAS("Recebendo ideias"), DISCUTINDO_IDEIAS("Discutindo ideias"), AVALIANDO_IDEIAS(
-				"Avaliando ideias"), ENCERRADA("Encerrada");
-
-		private String descricao;
-
-		private Fase(String descricao) {
-			this.descricao = descricao;
-		}
-
-		public String getDescricao() {
-			return descricao;
-		}
+	public Brainwriting() {
+		super("brainwriting");
 	}
 
+	@Override
+	@JsonView(BrainwritingViews.BrainwritingView.class)
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	@Override
+	@JsonView(BrainwritingViews.BrainwritingView.class)
 	public String getTitulo() {
-		return titulo;
+		return super.getTitulo();
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	@Override
+	@JsonView(BrainwritingViews.BrainwritingView.class)
+	public String getTipo() {
+		return super.getTipo();
 	}
 
+	@JsonView(BrainwritingViews.BrainwritingView.class)
 	public String getGatilho() {
 		return gatilho;
 	}
@@ -92,6 +66,7 @@ public class Brainwriting {
 		this.gatilho = gatilho;
 	}
 
+	@JsonView(BrainwritingViews.BrainwritingView.class)
 	public String getDescricao() {
 		return descricao;
 	}
@@ -100,6 +75,7 @@ public class Brainwriting {
 		this.descricao = descricao;
 	}
 
+	@JsonView(BrainwritingViews.BrainwritingView.class)
 	public Fase getFase() {
 		return fase;
 	}
@@ -116,14 +92,6 @@ public class Brainwriting {
 		this.moderadores = moderadores;
 	}
 
-	public void addModerador(PessoaBrainwriting moderador) {
-		if (this.moderadores == null) {
-			this.moderadores = new ArrayList<>();
-		}
-
-		this.moderadores.add(moderador);
-	}
-
 	public List<PessoaBrainwriting> getParticipantes() {
 		return participantes;
 	}
@@ -132,45 +100,41 @@ public class Brainwriting {
 		this.participantes = participantes;
 	}
 
+	public void addParticipante(PessoaBrainwriting pessoa) {
+		if (this.participantes == null) {
+			this.participantes = new ArrayList<>();
+		}
+
+		this.participantes.add(pessoa);
+	}
+
+	@ApiModelProperty(hidden = true)
+	@Override
 	public List<Ideia> getIdeias() {
-		return ideias;
+		return super.getIdeias();
 	}
 
-	public void setIdeias(List<Ideia> ideias) {
-		this.ideias = ideias;
-	}
-
-	public void addIdeia(Ideia ideia) {
-		if (this.ideias == null) {
-			this.ideias = new ArrayList<>();
+	public void addIdeia(IdeiaBrainwriting ideia) {
+		if (ideias == null) {
+			ideias = new ArrayList<>();
 		}
 
 		this.ideias.add(ideia);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+	public enum Fase {
+		NOVA("Nova"), RECEBENDO_IDEIAS("Recebendo ideias"), DISCUTINDO_IDEIAS("Discutindo ideias"), AVALIANDO_IDEIAS(
+				"Avaliando ideias"), ENCERRADA("Encerrada");
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Brainwriting other = (Brainwriting) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		private String descricao;
+
+		private Fase(String descricao) {
+			this.descricao = descricao;
+		}
+
+		public String getDescricao() {
+			return descricao;
+		}
 	}
 
 }

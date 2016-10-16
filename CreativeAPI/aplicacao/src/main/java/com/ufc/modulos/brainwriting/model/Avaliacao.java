@@ -6,24 +6,23 @@ import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.util.json.View;
 
 @Entity
 @IdClass(AvaliacaoId.class)
 public class Avaliacao {
 
-	@JsonView(View.Avaliacao.class)
+	@JsonView(BrainwritingViews.AvaliacaoView.class)
 	private Integer avaliacao;
 
 	@Id
 	@ManyToOne
-	@JsonView(View.Avaliacao.class)
+	@JsonView(BrainwritingViews.AvaliacaoView.class)
 	private PessoaBrainwriting autor;
 
 	@Id
 	@ManyToOne
-	@JsonView(View.Avaliacao.class)
-	private Ideia ideia;
+	@JsonView(BrainwritingViews.AvaliacaoView.class)
+	private IdeiaBrainwriting ideia;
 
 	public Integer getAvaliacao() {
 		return avaliacao;
@@ -41,11 +40,11 @@ public class Avaliacao {
 		this.autor = autor;
 	}
 
-	public Ideia getIdeia() {
+	public IdeiaBrainwriting getIdeia() {
 		return ideia;
 	}
 
-	public void setIdeia(Ideia ideia) {
+	public void setIdeia(IdeiaBrainwriting ideia) {
 		this.ideia = ideia;
 	}
 
