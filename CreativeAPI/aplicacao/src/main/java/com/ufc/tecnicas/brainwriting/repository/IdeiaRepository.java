@@ -1,8 +1,8 @@
-package com.ufc.modulos.brainwriting.repository;
+package com.ufc.tecnicas.brainwriting.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
+import com.ufc.tecnicas.brainwriting.model.IdeiaBrainwriting;
 
 public interface IdeiaRepository extends JpaRepository<IdeiaBrainwriting, Long> {
 

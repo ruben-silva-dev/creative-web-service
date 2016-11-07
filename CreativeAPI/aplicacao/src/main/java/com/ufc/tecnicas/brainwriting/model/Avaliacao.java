@@ -1,8 +1,5 @@
-package com.ufc.modulos.brainwriting.model;
+package com.ufc.tecnicas.brainwriting.model;
 
-import java.util.Calendar;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,25 +7,16 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ufc.geral.json.CalendarDeserialize;
-import com.ufc.geral.json.CalendarSerialize;
-import com.ufc.geral.model.Pessoa;
+import com.ufc.tecnicas.model.Pessoa;
 
 @Entity
-public class Comentario {
+public class Avaliacao {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	@Column(columnDefinition = "TEXT")
-	private String texto;
-
-	@JsonSerialize(using = CalendarSerialize.class)
-	@JsonDeserialize(using = CalendarDeserialize.class)
-	private Calendar data;
+	private Integer avaliacao;
 
 	@ManyToOne
 	private Pessoa autor;
@@ -46,21 +34,12 @@ public class Comentario {
 	}
 
 	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
-	public String getTexto() {
-		return texto;
+	public Integer getAvaliacao() {
+		return avaliacao;
 	}
 
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
-
-	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
-	public Calendar getData() {
-		return data;
-	}
-
-	public void setData(Calendar data) {
-		this.data = data;
+	public void setAvaliacao(Integer avaliacao) {
+		this.avaliacao = avaliacao;
 	}
 
 	public Pessoa getAutor() {
@@ -89,7 +68,8 @@ public class Comentario {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((autor == null) ? 0 : autor.hashCode());
+		result = prime * result + ((ideia == null) ? 0 : ideia.hashCode());
 		return result;
 	}
 
@@ -101,11 +81,16 @@ public class Comentario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comentario other = (Comentario) obj;
-		if (id == null) {
-			if (other.id != null)
+		Avaliacao other = (Avaliacao) obj;
+		if (autor == null) {
+			if (other.autor != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!autor.equals(other.autor))
+			return false;
+		if (ideia == null) {
+			if (other.ideia != null)
+				return false;
+		} else if (!ideia.equals(other.ideia))
 			return false;
 		return true;
 	}

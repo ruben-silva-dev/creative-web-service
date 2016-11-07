@@ -1,4 +1,4 @@
-package com.ufc.modulos.brainwriting.model;
+package com.ufc.tecnicas.brainwriting.model;
 
 public class BrainwritingViews {
 

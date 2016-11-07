@@ -1,7 +1,7 @@
-package com.ufc.modulos.brainwriting.model;
+package com.ufc.tecnicas.brainwriting.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.geral.model.Pessoa;
+import com.ufc.tecnicas.model.Pessoa;
 
 public class PessoaBrainwriting {
 

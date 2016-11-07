@@ -1,4 +1,4 @@
-package com.ufc.geral.model;
+package com.ufc.tecnicas.model;
 
 import java.util.List;
 

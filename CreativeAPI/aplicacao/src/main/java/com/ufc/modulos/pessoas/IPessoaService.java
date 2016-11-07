@@ -2,7 +2,7 @@ package com.ufc.modulos.pessoas;
 
 import java.util.List;
 
-import com.ufc.geral.model.Pessoa;
+import com.ufc.tecnicas.model.Pessoa;
 
 public interface IPessoaService {
 

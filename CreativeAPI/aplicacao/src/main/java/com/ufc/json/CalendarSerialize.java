@@ -1,4 +1,4 @@
-package com.ufc.geral.json;
+package com.ufc.json;
 
 import java.io.IOException;
 import java.util.Calendar;

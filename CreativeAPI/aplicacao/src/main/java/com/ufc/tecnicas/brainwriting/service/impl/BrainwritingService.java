@@ -1,4 +1,4 @@
-package com.ufc.modulos.brainwriting.service.impl;
+package com.ufc.tecnicas.brainwriting.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,17 +6,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufc.geral.model.Ideia;
-import com.ufc.geral.model.Pessoa;
-import com.ufc.modulos.brainwriting.model.Avaliacao;
-import com.ufc.modulos.brainwriting.model.Brainwriting;
-import com.ufc.modulos.brainwriting.model.Comentario;
-import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
-import com.ufc.modulos.brainwriting.repository.AvaliacaoRepository;
-import com.ufc.modulos.brainwriting.repository.BrainwritingRepository;
-import com.ufc.modulos.brainwriting.repository.ComentarioRepository;
-import com.ufc.modulos.brainwriting.repository.IdeiaRepository;
-import com.ufc.modulos.brainwriting.service.IBrainwritingService;
+import com.ufc.tecnicas.brainwriting.model.Avaliacao;
+import com.ufc.tecnicas.brainwriting.model.Brainwriting;
+import com.ufc.tecnicas.brainwriting.model.Comentario;
+import com.ufc.tecnicas.brainwriting.model.IdeiaBrainwriting;
+import com.ufc.tecnicas.brainwriting.repository.AvaliacaoRepository;
+import com.ufc.tecnicas.brainwriting.repository.BrainwritingRepository;
+import com.ufc.tecnicas.brainwriting.repository.ComentarioRepository;
+import com.ufc.tecnicas.brainwriting.repository.IdeiaRepository;
+import com.ufc.tecnicas.brainwriting.service.IBrainwritingService;
+import com.ufc.tecnicas.model.Ideia;
+import com.ufc.tecnicas.model.Pessoa;
 
 @Service
 public class BrainwritingService implements IBrainwritingService {

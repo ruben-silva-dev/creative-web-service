@@ -1,4 +1,4 @@
-package com.ufc.modulos.brainwriting.controller;
+package com.ufc.tecnicas.brainwriting.controller;
 
 import java.util.List;
 
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.geral.model.Pessoa;
-import com.ufc.modulos.brainwriting.model.Avaliacao;
-import com.ufc.modulos.brainwriting.model.Brainwriting;
-import com.ufc.modulos.brainwriting.model.BrainwritingViews;
-import com.ufc.modulos.brainwriting.model.Comentario;
-import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
-import com.ufc.modulos.brainwriting.service.IBrainwritingService;
 import com.ufc.modulos.pessoas.IPessoaService;
+import com.ufc.tecnicas.brainwriting.model.Avaliacao;
+import com.ufc.tecnicas.brainwriting.model.Brainwriting;
+import com.ufc.tecnicas.brainwriting.model.BrainwritingViews;
+import com.ufc.tecnicas.brainwriting.model.Comentario;
+import com.ufc.tecnicas.brainwriting.model.IdeiaBrainwriting;
+import com.ufc.tecnicas.brainwriting.service.IBrainwritingService;
+import com.ufc.tecnicas.model.Pessoa;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

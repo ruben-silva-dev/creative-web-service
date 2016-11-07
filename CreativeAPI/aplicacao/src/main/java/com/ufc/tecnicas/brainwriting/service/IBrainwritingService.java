@@ -1,12 +1,12 @@
-package com.ufc.modulos.brainwriting.service;
+package com.ufc.tecnicas.brainwriting.service;
 
 import java.util.List;
 
-import com.ufc.geral.model.Pessoa;
-import com.ufc.modulos.brainwriting.model.Avaliacao;
-import com.ufc.modulos.brainwriting.model.Brainwriting;
-import com.ufc.modulos.brainwriting.model.Comentario;
-import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
+import com.ufc.tecnicas.brainwriting.model.Avaliacao;
+import com.ufc.tecnicas.brainwriting.model.Brainwriting;
+import com.ufc.tecnicas.brainwriting.model.Comentario;
+import com.ufc.tecnicas.brainwriting.model.IdeiaBrainwriting;
+import com.ufc.tecnicas.model.Pessoa;
 
 public interface IBrainwritingService {
 

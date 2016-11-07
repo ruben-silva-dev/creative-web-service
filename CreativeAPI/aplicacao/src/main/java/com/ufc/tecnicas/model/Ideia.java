@@ -1,4 +1,4 @@
-package com.ufc.geral.model;
+package com.ufc.tecnicas.model;
 
 import java.util.Calendar;
 
@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ufc.geral.json.CalendarDeserialize;
-import com.ufc.geral.json.CalendarSerialize;
+import com.ufc.json.CalendarDeserialize;
+import com.ufc.json.CalendarSerialize;
 import com.ufc.modulos.relacionamento.RelacionamentoViews;
 
 @Entity

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufc.geral.model.Pessoa;
+import com.ufc.tecnicas.model.Pessoa;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

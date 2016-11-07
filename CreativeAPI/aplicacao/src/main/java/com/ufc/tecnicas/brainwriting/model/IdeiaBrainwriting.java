@@ -1,4 +1,4 @@
-package com.ufc.modulos.brainwriting.model;
+package com.ufc.tecnicas.brainwriting.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,9 +11,9 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.geral.model.Ideia;
-import com.ufc.geral.model.Pessoa;
-import com.ufc.geral.model.Tecnica;
+import com.ufc.tecnicas.model.Ideia;
+import com.ufc.tecnicas.model.Pessoa;
+import com.ufc.tecnicas.model.Tecnica;
 
 import io.swagger.annotations.ApiModelProperty;
 
