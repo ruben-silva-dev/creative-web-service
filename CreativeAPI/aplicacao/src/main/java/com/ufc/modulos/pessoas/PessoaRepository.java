@@ -2,8 +2,10 @@ package com.ufc.modulos.pessoas;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ufc.modulos.definicoes.Pessoa;
+import com.ufc.geral.model.Pessoa;
 
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
-
+	
+	Pessoa findById(Long id);
+	
 }

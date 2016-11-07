@@ -1,9 +1,12 @@
 package com.ufc.modulos.pessoas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ufc.modulos.definicoes.Pessoa;
+import com.ufc.geral.model.Pessoa;
 
 @Service
 public class PessoaService implements IPessoaService {
@@ -20,6 +23,17 @@ public class PessoaService implements IPessoaService {
 	public void alterar(Long idPessoa, Pessoa pessoa) {
 		pessoa.setId(idPessoa);
 		pessoaRepository.save(pessoa);
+	}
+
+	@Override
+	public List<Pessoa> buscarPessoas(List<Pessoa> pessoas) {
+		List<Pessoa> aux = new ArrayList<>();
+		
+		for(Pessoa pessoa : pessoas){
+			aux.add(pessoaRepository.findById(pessoa.getId()));
+		}
+
+		return aux;
 	}
 
 }

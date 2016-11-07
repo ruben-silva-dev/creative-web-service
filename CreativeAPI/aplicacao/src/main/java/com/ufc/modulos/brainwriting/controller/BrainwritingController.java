@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.ufc.geral.model.Pessoa;
 import com.ufc.modulos.brainwriting.model.Avaliacao;
 import com.ufc.modulos.brainwriting.model.Brainwriting;
 import com.ufc.modulos.brainwriting.model.BrainwritingViews;
 import com.ufc.modulos.brainwriting.model.Comentario;
 import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
-import com.ufc.modulos.brainwriting.model.PessoaBrainwriting;
-import com.ufc.modulos.brainwriting.repository.BrainwritingRepository;
 import com.ufc.modulos.brainwriting.service.IBrainwritingService;
+import com.ufc.modulos.pessoas.IPessoaService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,23 +34,23 @@ import io.swagger.annotations.ApiOperation;
 public class BrainwritingController {
 
 	@Autowired
-	private BrainwritingRepository brainwritingRepository;
-
-	@Autowired
 	private IBrainwritingService brainwritingService;
 
+	@Autowired
+	private IPessoaService pessoaService;
+
 	@ApiOperation(value = "Retorna todos os brainwriting de uma pessoa", notes = "O método retorna tanto os brainwriting que uma pessoa modera quanto aqueles que ela participa.")
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingResumo.class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public List<Brainwriting> getBrainwriting(@RequestParam("idPessoa") PessoaBrainwriting pessoa) {
-		return brainwritingRepository.findByPessoa(pessoa);
+	public List<Brainwriting> getBrainwriting(@RequestParam("idPessoa") Pessoa pessoa) {
+		return brainwritingService.buscarBrainwritingPorPessoa(pessoa);
 	}
 
 	@ApiOperation(value = "Retorna um brainwriting com base no seu id")
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	@GetMapping(value = "/{idBrainwriting}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Brainwriting getDiscussaoPorId(@PathVariable Long idBrainwriting) {
-		return brainwritingRepository.findOne(idBrainwriting);
+	public Brainwriting getDiscussaoPorId(@PathVariable("idBrainwriting") Brainwriting brainwriting) {
+		return brainwriting;
 	}
 
 	@ApiOperation(value = "Adiciona um novo brainwriting")
@@ -69,13 +69,14 @@ public class BrainwritingController {
 	}
 
 	@ApiOperation(value = "Retorna todas as ideias de um brainwriting")
-	@JsonView(BrainwritingViews.IdeiaBrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	@GetMapping(value = "/{idBrainwriting}/ideia", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<IdeiaBrainwriting> getIdeias(@PathVariable("idBrainwriting") Brainwriting brainwriting) {
 		return brainwritingService.buscarIdeias(brainwriting);
 	}
 
 	@ApiOperation(value = "Retorna uma ideia em específico")
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	@GetMapping(value = "/ideia/{idIdeia}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public IdeiaBrainwriting getIdeia(@PathVariable("idIdeia") IdeiaBrainwriting ideia) {
 		return ideia;
@@ -90,25 +91,17 @@ public class BrainwritingController {
 	}
 
 	@ApiOperation(value = "Retorna todos os participantes de um brainwriting")
-	@JsonView(BrainwritingViews.BrainwritingPessoaView.class)
 	@GetMapping(value = "{idBrainwriting}/participante", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public List<PessoaBrainwriting> getParticipantes(@PathVariable("idBrainwriting") Brainwriting brainwriting) {
-		return brainwriting.getParticipantes();
+	public List<Pessoa> getParticipantes(@PathVariable("idBrainwriting") Brainwriting brainwriting) {
+		return pessoaService.buscarPessoas(brainwriting.getParticipantes());
 	}
 
 	@ApiOperation(value = "Vincula um participante a um brainwriting")
 	@PostMapping(value = "{idBrainwriting}/participante", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> vincularParticipante(@RequestBody PessoaBrainwriting pessoa,
+	public ResponseEntity<?> vincularParticipante(@RequestBody Pessoa pessoa,
 			@PathVariable("idBrainwriting") Brainwriting brainwriting) {
 		brainwritingService.vincularParticipante(pessoa, brainwriting);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "Retorna todas as avaliações de uma idéia")
-	@JsonView(BrainwritingViews.AvaliacaoView.class)
-	@GetMapping(value = "ideia/{idIdeia}/avaliacao", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public List<Avaliacao> getAvaliacoes(@PathVariable("idIdeia") IdeiaBrainwriting ideia) {
-		return ideia.getAvaliacoes();
 	}
 
 	@ApiOperation(value = "Adiciona uma nova avaliação a uma idéia existente")
@@ -117,13 +110,6 @@ public class BrainwritingController {
 			@RequestBody Avaliacao avaliacao) {
 		brainwritingService.adicionarAvaliacao(ideia, avaliacao);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "Retorna todos os comentários de uma idéia")
-	@JsonView(BrainwritingViews.ComentarioView.class)
-	@GetMapping(value = "ideia/{idIdeia}/comentario", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public List<Comentario> getComentarios(@PathVariable("idIdeia") IdeiaBrainwriting ideia) {
-		return ideia.getComentarios();
 	}
 
 	@ApiOperation(value = "Adiciona um novo comentário a uma idéia existente")

@@ -1,33 +1,28 @@
-package com.ufc.modulos.definicoes;
+package com.ufc.geral.model;
 
 import java.util.Calendar;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ufc.util.json.CalendarDeserialize;
-import com.ufc.util.json.CalendarSerialize;
+import com.ufc.geral.json.CalendarDeserialize;
+import com.ufc.geral.json.CalendarSerialize;
+import com.ufc.modulos.relacionamento.RelacionamentoViews;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Ideia {
 
 	@Id
-	@SequenceGenerator(name = "ideia_id", sequenceName = "ideia_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ideia_id")
+	@GeneratedValue
 	private Long id;
 
 	@Column(columnDefinition = "TEXT")
@@ -40,10 +35,7 @@ public abstract class Ideia {
 	@ManyToOne
 	private Tecnica tecnica;
 
-	@OneToMany(mappedBy = "ideiaRaiz", cascade = CascadeType.MERGE)
-	private List<Relacionamento> relacionamentos;
-
-	@JsonView(GeneralViews.RelacionamentoView.class)
+	@JsonView(RelacionamentoViews.RelacionamentoView.class)
 	public Long getId() {
 		return id;
 	}
@@ -74,14 +66,6 @@ public abstract class Ideia {
 
 	public void setTecnica(Tecnica tecnica) {
 		this.tecnica = tecnica;
-	}
-
-	public List<Relacionamento> getRelacionamentos() {
-		return relacionamentos;
-	}
-
-	public void setRelacionamentos(List<Relacionamento> relacionamentos) {
-		this.relacionamentos = relacionamentos;
 	}
 
 	@Override

@@ -6,15 +6,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ufc.geral.model.Ideia;
+import com.ufc.geral.model.Pessoa;
 import com.ufc.modulos.brainwriting.model.Avaliacao;
 import com.ufc.modulos.brainwriting.model.Brainwriting;
 import com.ufc.modulos.brainwriting.model.Comentario;
 import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
-import com.ufc.modulos.brainwriting.model.PessoaBrainwriting;
+import com.ufc.modulos.brainwriting.repository.AvaliacaoRepository;
 import com.ufc.modulos.brainwriting.repository.BrainwritingRepository;
+import com.ufc.modulos.brainwriting.repository.ComentarioRepository;
 import com.ufc.modulos.brainwriting.repository.IdeiaRepository;
 import com.ufc.modulos.brainwriting.service.IBrainwritingService;
-import com.ufc.modulos.definicoes.Ideia;
 
 @Service
 public class BrainwritingService implements IBrainwritingService {
@@ -24,6 +26,12 @@ public class BrainwritingService implements IBrainwritingService {
 
 	@Autowired
 	private IdeiaRepository ideiaRepository;
+
+	@Autowired
+	private AvaliacaoRepository avaliacaoRepository;
+
+	@Autowired
+	private ComentarioRepository comentarioRepository;
 
 	@Override
 	public void adicionar(Brainwriting brainwriting) {
@@ -38,26 +46,26 @@ public class BrainwritingService implements IBrainwritingService {
 
 	@Override
 	public void vincularIdeia(Brainwriting brainwriting, IdeiaBrainwriting ideia) {
-		brainwriting.addIdeia(ideia);
-		brainwritingRepository.save(brainwriting);
+		ideia.setTecnica(brainwriting);
+		ideiaRepository.save(ideia);
 	}
 
 	@Override
-	public void vincularParticipante(PessoaBrainwriting pessoa, Brainwriting brainwriting) {
+	public void vincularParticipante(Pessoa pessoa, Brainwriting brainwriting) {
 		brainwriting.addParticipante(pessoa);
 		brainwritingRepository.save(brainwriting);
 	}
 
 	@Override
 	public void adicionarAvaliacao(IdeiaBrainwriting ideia, Avaliacao avaliacao) {
-		ideia.addAvaliacao(avaliacao);
-		ideiaRepository.save(ideia);
+		avaliacao.setIdeia(ideia);
+		avaliacaoRepository.save(avaliacao);
 	}
 
 	@Override
 	public void adicionarComentario(IdeiaBrainwriting ideia, Comentario comentario) {
-		ideia.addComentario(comentario);
-		ideiaRepository.save(ideia);
+		comentario.setIdeia(ideia);
+		comentarioRepository.save(comentario);
 	}
 
 	@Override
@@ -69,5 +77,10 @@ public class BrainwritingService implements IBrainwritingService {
 		}
 
 		return ideias;
+	}
+
+	@Override
+	public List<Brainwriting> buscarBrainwritingPorPessoa(Pessoa pessoa) {
+		return brainwritingRepository.findDistinctByFacilitadorOrParticipantes(pessoa, pessoa);
 	}
 }

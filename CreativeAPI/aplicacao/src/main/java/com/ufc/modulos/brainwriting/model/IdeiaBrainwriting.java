@@ -4,65 +4,78 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.modulos.definicoes.Ideia;
+import com.ufc.geral.model.Ideia;
+import com.ufc.geral.model.Pessoa;
+import com.ufc.geral.model.Tecnica;
 
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class IdeiaBrainwriting extends Ideia {
 
-	@ManyToMany
-	@JoinTable(name = "autor", joinColumns = @JoinColumn(name = "ideia_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
-	private List<PessoaBrainwriting> autores;
+	@ManyToOne
+	private Pessoa autor;
 
 	@ApiModelProperty(hidden = true)
-	@OneToMany(mappedBy = "ideia", cascade = CascadeType.MERGE)
+	@OneToMany
+	@JoinColumn(name = "ideia_id")
 	private List<Avaliacao> avaliacoes;
 
 	@ApiModelProperty(hidden = true)
-	@OneToMany(mappedBy = "ideia", cascade = CascadeType.MERGE)
+	@OneToMany
+	@JoinColumn(name = "ideia_id")
 	private List<Comentario> comentarios;
 
 	@Override
-	@JsonView({ BrainwritingViews.IdeiaBrainwritingView.class, BrainwritingViews.AvaliacaoView.class, BrainwritingViews.ComentarioView.class })
+	@JsonView({ BrainwritingViews.BrainwritingDetalhes.class, BrainwritingViews.IdeiaDetalhes.class })
 	public Long getId() {
 		return super.getId();
 	}
 
 	@Override
-	@JsonView(BrainwritingViews.IdeiaBrainwritingView.class)
+	@JsonView({ BrainwritingViews.BrainwritingDetalhes.class, BrainwritingViews.IdeiaDetalhes.class })
 	public String getTexto() {
 		return super.getTexto();
 	}
 
 	@Override
-	@JsonView(BrainwritingViews.IdeiaBrainwritingView.class)
+	@JsonView({ BrainwritingViews.BrainwritingDetalhes.class, BrainwritingViews.IdeiaDetalhes.class })
 	public Calendar getData() {
 		return super.getData();
 	}
 
-	public List<PessoaBrainwriting> getAutores() {
-		return autores;
+	public Pessoa getAutor() {
+		return autor;
 	}
 
-	public void setAutores(List<PessoaBrainwriting> autores) {
-		this.autores = autores;
+	public void setAutor(Pessoa autor) {
+		this.autor = autor;
 	}
 
+	@JsonView({ BrainwritingViews.BrainwritingDetalhes.class, BrainwritingViews.IdeiaDetalhes.class })
+	public PessoaBrainwriting autor() {
+		return new PessoaBrainwriting(autor);
+	}
+
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
 	}
 
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		this.avaliacoes = avaliacoes;
+	}
+
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	public Integer numeroAvaliacoes() {
+		return avaliacoes.size();
 	}
 
 	public void addAvaliacao(Avaliacao avaliacao) {
@@ -74,12 +87,18 @@ public class IdeiaBrainwriting extends Ideia {
 		this.avaliacoes.add(avaliacao);
 	}
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
 
 	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	public Integer numeroComentarios() {
+		return comentarios.size();
 	}
 
 	public void addComentario(Comentario comentario) {
@@ -89,6 +108,12 @@ public class IdeiaBrainwriting extends Ideia {
 
 		comentario.setIdeia(this);
 		this.comentarios.add(comentario);
+	}
+
+	@JsonIgnore
+	@Override
+	public Tecnica getTecnica() {
+		return super.getTecnica();
 	}
 
 }

@@ -1,29 +1,39 @@
 package com.ufc.modulos.brainwriting.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.ufc.geral.model.Pessoa;
 
 @Entity
-@IdClass(AvaliacaoId.class)
 public class Avaliacao {
 
-	@JsonView(BrainwritingViews.AvaliacaoView.class)
+	@Id
+	@GeneratedValue
+	private Long id;
+
 	private Integer avaliacao;
 
-	@Id
 	@ManyToOne
-	@JsonView(BrainwritingViews.AvaliacaoView.class)
-	private PessoaBrainwriting autor;
+	private Pessoa autor;
 
-	@Id
 	@ManyToOne
-	@JsonView(BrainwritingViews.AvaliacaoView.class)
 	private IdeiaBrainwriting ideia;
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public Integer getAvaliacao() {
 		return avaliacao;
 	}
@@ -32,14 +42,20 @@ public class Avaliacao {
 		this.avaliacao = avaliacao;
 	}
 
-	public PessoaBrainwriting getAutor() {
+	public Pessoa getAutor() {
 		return autor;
 	}
 
-	public void setAutor(PessoaBrainwriting autor) {
+	public void setAutor(Pessoa autor) {
 		this.autor = autor;
 	}
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	public PessoaBrainwriting autor() {
+		return new PessoaBrainwriting(autor);
+	}
+
+	@JsonIgnore
 	public IdeiaBrainwriting getIdeia() {
 		return ideia;
 	}

@@ -1,31 +1,29 @@
-package com.ufc.modulos.definicoes;
+package com.ufc.geral.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Tecnica {
 
 	@Id
-	@SequenceGenerator(name = "tecnica_id", sequenceName = "tecnica_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tecnica_id")
+	@GeneratedValue
 	private Long id;
 
 	private String titulo;
 
 	private String tipo;
 
-	@OneToMany(mappedBy = "tecnica", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToMany
+	@JoinColumn(name = "tecnica_id")
 	protected List<Ideia> ideias;
 
 	public Tecnica(String tipo) {

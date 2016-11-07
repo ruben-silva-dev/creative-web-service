@@ -3,17 +3,18 @@ package com.ufc.modulos.brainwriting.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.ufc.modulos.definicoes.Ideia;
-import com.ufc.modulos.definicoes.Tecnica;
+import com.ufc.geral.model.Ideia;
+import com.ufc.geral.model.Pessoa;
+import com.ufc.geral.model.Tecnica;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,37 +28,37 @@ public class Brainwriting extends Tecnica {
 	@Enumerated(EnumType.STRING)
 	private Fase fase;
 
-	@ManyToMany(mappedBy = "brainwriting")
-	private List<PessoaBrainwriting> moderadores;
+	@ManyToOne
+	private Pessoa facilitador;
 
 	@ApiModelProperty(hidden = true)
-	@ManyToMany(cascade = CascadeType.MERGE)
+	@ManyToMany
 	@JoinTable(name = "participacao", joinColumns = @JoinColumn(name = "brainwriting_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
-	private List<PessoaBrainwriting> participantes;
+	private List<Pessoa> participantes;
 
 	public Brainwriting() {
 		super("brainwriting");
 	}
 
 	@Override
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView({BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class})
 	public Long getId() {
 		return super.getId();
 	}
 
 	@Override
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView({BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class})
 	public String getTitulo() {
 		return super.getTitulo();
 	}
 
 	@Override
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public String getTipo() {
 		return super.getTipo();
 	}
 
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public String getGatilho() {
 		return gatilho;
 	}
@@ -66,7 +67,7 @@ public class Brainwriting extends Tecnica {
 		this.gatilho = gatilho;
 	}
 
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public String getDescricao() {
 		return descricao;
 	}
@@ -75,7 +76,7 @@ public class Brainwriting extends Tecnica {
 		this.descricao = descricao;
 	}
 
-	@JsonView(BrainwritingViews.BrainwritingView.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public Fase getFase() {
 		return fase;
 	}
@@ -84,31 +85,52 @@ public class Brainwriting extends Tecnica {
 		this.fase = fase;
 	}
 
-	public List<PessoaBrainwriting> getModeradores() {
-		return moderadores;
+	public Pessoa getFacilitador() {
+		return facilitador;
 	}
 
-	public void setModeradores(List<PessoaBrainwriting> moderadores) {
-		this.moderadores = moderadores;
+	public void setFacilitador(Pessoa facilitador) {
+		this.facilitador = facilitador;
 	}
 
-	public List<PessoaBrainwriting> getParticipantes() {
+	public List<Pessoa> getParticipantes() {
 		return participantes;
 	}
 
-	public void setParticipantes(List<PessoaBrainwriting> participantes) {
+	public void setParticipantes(List<Pessoa> participantes) {
 		this.participantes = participantes;
 	}
+	
+	@JsonView(BrainwritingViews.BrainwritingResumo.class)
+	public Integer numeroParticipantes(){
+		return participantes.size();
+	}
+	
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	public List<PessoaBrainwriting> participantes() {
+		List<PessoaBrainwriting> aux = new ArrayList<>();
+		
+		for(Pessoa pessoa : participantes){
+			aux.add(new PessoaBrainwriting(pessoa));
+		}
+		
+		return aux;
+	}
 
-	public void addParticipante(PessoaBrainwriting pessoa) {
+	public void addParticipante(Pessoa pessoa) {
 		if (this.participantes == null) {
 			this.participantes = new ArrayList<>();
 		}
 
 		this.participantes.add(pessoa);
 	}
-
-	@ApiModelProperty(hidden = true)
+	
+	@JsonView(BrainwritingViews.BrainwritingResumo.class)
+	public Integer numeroIdeias(){
+		return ideias.size();
+	}
+	
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	@Override
 	public List<Ideia> getIdeias() {
 		return super.getIdeias();

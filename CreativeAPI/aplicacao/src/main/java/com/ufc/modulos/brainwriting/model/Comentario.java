@@ -5,41 +5,38 @@ import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ufc.util.json.CalendarDeserialize;
-import com.ufc.util.json.CalendarSerialize;
+import com.ufc.geral.json.CalendarDeserialize;
+import com.ufc.geral.json.CalendarSerialize;
+import com.ufc.geral.model.Pessoa;
 
 @Entity
 public class Comentario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonView(BrainwritingViews.ComentarioView.class)
+	@GeneratedValue
 	private Long id;
 
 	@Column(columnDefinition = "TEXT")
-	@JsonView(BrainwritingViews.ComentarioView.class)
 	private String texto;
 
 	@JsonSerialize(using = CalendarSerialize.class)
 	@JsonDeserialize(using = CalendarDeserialize.class)
-	@JsonView(BrainwritingViews.ComentarioView.class)
 	private Calendar data;
 
 	@ManyToOne
-	@JsonView(BrainwritingViews.ComentarioView.class)
-	private PessoaBrainwriting autor;
+	private Pessoa autor;
 
 	@ManyToOne
-	@JsonView(BrainwritingViews.ComentarioView.class)
 	private IdeiaBrainwriting ideia;
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public Long getId() {
 		return id;
 	}
@@ -48,6 +45,7 @@ public class Comentario {
 		this.id = id;
 	}
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public String getTexto() {
 		return texto;
 	}
@@ -56,6 +54,7 @@ public class Comentario {
 		this.texto = texto;
 	}
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public Calendar getData() {
 		return data;
 	}
@@ -64,14 +63,20 @@ public class Comentario {
 		this.data = data;
 	}
 
-	public PessoaBrainwriting getAutor() {
+	public Pessoa getAutor() {
 		return autor;
 	}
 
-	public void setAutor(PessoaBrainwriting autor) {
+	public void setAutor(Pessoa autor) {
 		this.autor = autor;
 	}
 
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	public PessoaBrainwriting autor() {
+		return new PessoaBrainwriting(autor);
+	}
+
+	@JsonIgnore
 	public IdeiaBrainwriting getIdeia() {
 		return ideia;
 	}

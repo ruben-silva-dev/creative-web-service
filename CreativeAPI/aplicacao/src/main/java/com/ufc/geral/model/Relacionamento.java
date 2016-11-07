@@ -1,8 +1,7 @@
-package com.ufc.modulos.definicoes;
+package com.ufc.geral.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -10,16 +9,16 @@ import javax.persistence.ManyToOne;
 public class Relacionamento {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private Integer id;
 
 	@ManyToOne
-	private Ideia ideiaRaiz;
+	private Tecnica tecnicaRaiz;
 
 	@ManyToOne
-	private Ideia ideiaRelacionada;
+	private Tecnica tecnicaRelacionada;
 
-	private String tipo;
+	private String tipoRelacionamento;
 
 	public Integer getId() {
 		return id;
@@ -29,28 +28,28 @@ public class Relacionamento {
 		this.id = id;
 	}
 
-	public Ideia getIdeiaRaiz() {
-		return ideiaRaiz;
+	public Tecnica getTecnicaRaiz() {
+		return tecnicaRaiz;
 	}
 
-	public void setIdeiaRaiz(Ideia ideiaRaiz) {
-		this.ideiaRaiz = ideiaRaiz;
+	public void setTecnicaRaiz(Tecnica tecnicaRaiz) {
+		this.tecnicaRaiz = tecnicaRaiz;
 	}
 
-	public Ideia getIdeiaRelacionada() {
-		return ideiaRelacionada;
+	public Tecnica getTecnicaRelacionada() {
+		return tecnicaRelacionada;
 	}
 
-	public void setIdeiaRelacionada(Ideia ideiaRelacionada) {
-		this.ideiaRelacionada = ideiaRelacionada;
+	public void setTecnicaRelacionada(Tecnica tecnicaRelacionada) {
+		this.tecnicaRelacionada = tecnicaRelacionada;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public String getTipoRelacionamento() {
+		return tipoRelacionamento;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setTipoRelacionamento(String tipoRelacionamento) {
+		this.tipoRelacionamento = tipoRelacionamento;
 	}
 
 	@Override

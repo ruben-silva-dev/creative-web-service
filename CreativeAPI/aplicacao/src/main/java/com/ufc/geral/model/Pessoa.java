@@ -1,22 +1,19 @@
-package com.ufc.modulos.definicoes;
+package com.ufc.geral.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.SequenceGenerator;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
 
 	@Id
-	@SequenceGenerator(name = "pessoa_id", sequenceName = "pessoa_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_id")
+	@GeneratedValue
 	private Long id;
-
+	
 	private String nome;
 
 	private String email;
@@ -47,6 +44,7 @@ public class Pessoa {
 		this.email = email;
 	}
 
+	@JsonProperty(access = Access.WRITE_ONLY)
 	public String getSenha() {
 		return senha;
 	}

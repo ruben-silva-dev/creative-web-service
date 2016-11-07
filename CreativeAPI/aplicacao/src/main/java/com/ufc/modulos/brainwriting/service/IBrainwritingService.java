@@ -2,11 +2,11 @@ package com.ufc.modulos.brainwriting.service;
 
 import java.util.List;
 
+import com.ufc.geral.model.Pessoa;
 import com.ufc.modulos.brainwriting.model.Avaliacao;
 import com.ufc.modulos.brainwriting.model.Brainwriting;
 import com.ufc.modulos.brainwriting.model.Comentario;
 import com.ufc.modulos.brainwriting.model.IdeiaBrainwriting;
-import com.ufc.modulos.brainwriting.model.PessoaBrainwriting;
 
 public interface IBrainwritingService {
 
@@ -18,9 +18,11 @@ public interface IBrainwritingService {
 
 	List<IdeiaBrainwriting> buscarIdeias(Brainwriting brainwriting);
 
-	void vincularParticipante(PessoaBrainwriting pessoa, Brainwriting brainwriting);
+	void vincularParticipante(Pessoa pessoa, Brainwriting brainwriting);
 
 	public void adicionarAvaliacao(IdeiaBrainwriting ideia, Avaliacao avaliacao);
 
 	public void adicionarComentario(IdeiaBrainwriting ideia, Comentario comentario);
+
+	public List<Brainwriting> buscarBrainwritingPorPessoa(Pessoa pessoa);
 }
