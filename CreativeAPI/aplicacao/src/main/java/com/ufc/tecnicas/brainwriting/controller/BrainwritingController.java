@@ -54,18 +54,20 @@ public class BrainwritingController {
 	}
 
 	@ApiOperation(value = "Adiciona um novo brainwriting")
+	@JsonView(BrainwritingViews.BrainwritingResumo.class)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> adicionarBrainwriting(@RequestBody Brainwriting brainwriting) {
+	public ResponseEntity<Brainwriting> adicionarBrainwriting(@RequestBody Brainwriting brainwriting) {
 		brainwritingService.adicionar(brainwriting);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(brainwriting, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Atualiza as informações de um brainwriting existente")
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	@PostMapping(value = "/{idBrainwriting}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> atualizarBrainwriting(@PathVariable Long idBrainwriting,
+	public ResponseEntity<Brainwriting> atualizarBrainwriting(@PathVariable Long idBrainwriting,
 			@RequestBody Brainwriting brainwriting) {
 		brainwritingService.alterar(idBrainwriting, brainwriting);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(brainwriting, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Retorna todas as ideias de um brainwriting")

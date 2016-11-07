@@ -103,7 +103,7 @@ public class Brainwriting extends Tecnica {
 	
 	@JsonView(BrainwritingViews.BrainwritingResumo.class)
 	public Integer numeroParticipantes(){
-		return participantes.size();
+		return participantes != null ? participantes.size() : 0;
 	}
 	
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
@@ -126,8 +126,8 @@ public class Brainwriting extends Tecnica {
 	}
 	
 	@JsonView(BrainwritingViews.BrainwritingResumo.class)
-	public Integer numeroIdeias(){
-		return ideias.size();
+	public Integer numeroIdeias(){ 
+		return ideias != null ? ideias.size() : 0;
 	}
 	
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)

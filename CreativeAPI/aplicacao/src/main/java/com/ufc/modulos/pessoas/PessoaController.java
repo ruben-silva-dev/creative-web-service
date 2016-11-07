@@ -42,16 +42,16 @@ public class PessoaController {
 
 	@ApiOperation(value = "Adiciona uma nova pessoa")
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> adicionarPessoa(@RequestBody Pessoa pessoa) {
+	public ResponseEntity<Pessoa> adicionarPessoa(@RequestBody Pessoa pessoa) {
 		pessoaService.adicionar(pessoa);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(pessoa, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Atualiza as informações de uma pessoa existente")
 	@RequestMapping(value = "/{idPessoa}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> atualizarPessoa(@PathVariable Long idPessoa, @RequestBody Pessoa pessoa) {
+	public ResponseEntity<Pessoa> atualizarPessoa(@PathVariable Long idPessoa, @RequestBody Pessoa pessoa) {
 		pessoaService.alterar(idPessoa, pessoa);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(pessoa, HttpStatus.OK);
 	}
 
 }
