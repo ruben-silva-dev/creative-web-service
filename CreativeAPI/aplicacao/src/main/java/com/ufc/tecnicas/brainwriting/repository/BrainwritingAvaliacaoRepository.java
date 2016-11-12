@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ufc.tecnicas.brainwriting.model.Avaliacao;
 
-public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
+public interface BrainwritingAvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
 }

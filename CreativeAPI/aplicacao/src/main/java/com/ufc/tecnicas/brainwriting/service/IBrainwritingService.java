@@ -5,7 +5,7 @@ import java.util.List;
 import com.ufc.tecnicas.brainwriting.model.Avaliacao;
 import com.ufc.tecnicas.brainwriting.model.Brainwriting;
 import com.ufc.tecnicas.brainwriting.model.Comentario;
-import com.ufc.tecnicas.brainwriting.model.IdeiaBrainwriting;
+import com.ufc.tecnicas.brainwriting.model.BrainwritingIdeia;
 import com.ufc.tecnicas.model.Pessoa;
 
 public interface IBrainwritingService {
@@ -14,15 +14,15 @@ public interface IBrainwritingService {
 
 	void alterar(Long idBrainwriting, Brainwriting brainwriting);
 
-	void vincularIdeia(Brainwriting brainwriting, IdeiaBrainwriting ideia);
+	void vincularIdeia(Brainwriting brainwriting, BrainwritingIdeia ideia);
 
-	List<IdeiaBrainwriting> buscarIdeias(Brainwriting brainwriting);
+	List<BrainwritingIdeia> buscarIdeias(Brainwriting brainwriting);
 
 	void vincularParticipante(Pessoa pessoa, Brainwriting brainwriting);
 
-	public void adicionarAvaliacao(IdeiaBrainwriting ideia, Avaliacao avaliacao);
+	public void adicionarAvaliacao(BrainwritingIdeia ideia, Avaliacao avaliacao);
 
-	public void adicionarComentario(IdeiaBrainwriting ideia, Comentario comentario);
+	public void adicionarComentario(BrainwritingIdeia ideia, Comentario comentario);
 
 	public List<Brainwriting> buscarBrainwritingPorPessoa(Pessoa pessoa);
 }

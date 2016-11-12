@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ufc.tecnicas.model.Ideia;
@@ -19,6 +20,7 @@ import com.ufc.tecnicas.model.Tecnica;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
+@Table(name = "brainwriting")
 public class Brainwriting extends Tecnica {
 
 	private String gatilho;
@@ -33,7 +35,7 @@ public class Brainwriting extends Tecnica {
 
 	@ApiModelProperty(hidden = true)
 	@ManyToMany
-	@JoinTable(name = "participacao", joinColumns = @JoinColumn(name = "brainwriting_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
+	@JoinTable(name = "brainwriting_participacao", joinColumns = @JoinColumn(name = "brainwriting_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
 	private List<Pessoa> participantes;
 
 	public Brainwriting() {
@@ -134,14 +136,6 @@ public class Brainwriting extends Tecnica {
 	@Override
 	public List<Ideia> getIdeias() {
 		return super.getIdeias();
-	}
-
-	public void addIdeia(IdeiaBrainwriting ideia) {
-		if (ideias == null) {
-			ideias = new ArrayList<>();
-		}
-
-		this.ideias.add(ideia);
 	}
 
 	public enum Fase {

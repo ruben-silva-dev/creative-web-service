@@ -4,12 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ufc.tecnicas.model.Pessoa;
 
 @Entity
+@Table(name = "brainwriting_avaliacao")
 public class Avaliacao {
 
 	@Id
@@ -22,7 +24,7 @@ public class Avaliacao {
 	private Pessoa autor;
 
 	@ManyToOne
-	private IdeiaBrainwriting ideia;
+	private BrainwritingIdeia ideia;
 
 	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public Long getId() {
@@ -56,11 +58,11 @@ public class Avaliacao {
 	}
 
 	@JsonIgnore
-	public IdeiaBrainwriting getIdeia() {
+	public BrainwritingIdeia getIdeia() {
 		return ideia;
 	}
 
-	public void setIdeia(IdeiaBrainwriting ideia) {
+	public void setIdeia(BrainwritingIdeia ideia) {
 		this.ideia = ideia;
 	}
 

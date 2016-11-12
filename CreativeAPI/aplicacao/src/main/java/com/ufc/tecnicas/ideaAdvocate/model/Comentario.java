@@ -1,15 +1,13 @@
-package com.ufc.tecnicas.brainwriting.model;
+package com.ufc.tecnicas.ideaAdvocate.model;
 
 import java.util.Calendar;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -18,14 +16,13 @@ import com.ufc.json.CalendarSerialize;
 import com.ufc.tecnicas.model.Pessoa;
 
 @Entity
-@Table(name = "brainwriting_comentario")
+@Table(name = "advocate_comentario")
 public class Comentario {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	@Column(columnDefinition = "TEXT")
 	private String texto;
 
 	@JsonSerialize(using = CalendarSerialize.class)
@@ -36,9 +33,9 @@ public class Comentario {
 	private Pessoa autor;
 
 	@ManyToOne
-	private BrainwritingIdeia ideia;
+	private AdvocateIdeia ideia;
 
-	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	@JsonView(AdvocateViews.IdeiaDetalhes.class)
 	public Long getId() {
 		return id;
 	}
@@ -47,7 +44,7 @@ public class Comentario {
 		this.id = id;
 	}
 
-	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	@JsonView(AdvocateViews.IdeiaDetalhes.class)
 	public String getTexto() {
 		return texto;
 	}
@@ -56,7 +53,7 @@ public class Comentario {
 		this.texto = texto;
 	}
 
-	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	@JsonView(AdvocateViews.IdeiaDetalhes.class)
 	public Calendar getData() {
 		return data;
 	}
@@ -69,21 +66,20 @@ public class Comentario {
 		return autor;
 	}
 
+	@JsonView(AdvocateViews.IdeiaDetalhes.class)
+	public PessoaAdvocate autor() {
+		return new PessoaAdvocate(autor);
+	}
+
 	public void setAutor(Pessoa autor) {
 		this.autor = autor;
 	}
 
-	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
-	public PessoaBrainwriting autor() {
-		return new PessoaBrainwriting(autor);
-	}
-
-	@JsonIgnore
-	public BrainwritingIdeia getIdeia() {
+	public AdvocateIdeia getIdeia() {
 		return ideia;
 	}
 
-	public void setIdeia(BrainwritingIdeia ideia) {
+	public void setIdeia(AdvocateIdeia ideia) {
 		this.ideia = ideia;
 	}
 

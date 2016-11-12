@@ -1,6 +1,5 @@
 package com.ufc.tecnicas.brainwriting.model;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -18,7 +18,8 @@ import com.ufc.tecnicas.model.Tecnica;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-public class IdeiaBrainwriting extends Ideia {
+@Table(name = "brainwriting_ideia")
+public class BrainwritingIdeia extends Ideia {
 
 	@ManyToOne
 	private Pessoa autor;
@@ -51,6 +52,18 @@ public class IdeiaBrainwriting extends Ideia {
 		return super.getData();
 	}
 
+	@Override
+	@JsonView({ BrainwritingViews.BrainwritingDetalhes.class, BrainwritingViews.IdeiaDetalhes.class })
+	public String getTitulo() {
+		return super.getTitulo();
+	}
+
+	@JsonIgnore
+	@Override
+	public Tecnica getTecnica() {
+		return super.getTecnica();
+	}
+
 	public Pessoa getAutor() {
 		return autor;
 	}
@@ -78,15 +91,6 @@ public class IdeiaBrainwriting extends Ideia {
 		return avaliacoes.size();
 	}
 
-	public void addAvaliacao(Avaliacao avaliacao) {
-		if (this.avaliacoes == null) {
-			this.avaliacoes = new ArrayList<>();
-		}
-
-		avaliacao.setIdeia(this);
-		this.avaliacoes.add(avaliacao);
-	}
-
 	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
 	public List<Comentario> getComentarios() {
 		return comentarios;
@@ -99,21 +103,6 @@ public class IdeiaBrainwriting extends Ideia {
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public Integer numeroComentarios() {
 		return comentarios.size();
-	}
-
-	public void addComentario(Comentario comentario) {
-		if (this.comentarios == null) {
-			this.comentarios = new ArrayList<>();
-		}
-
-		comentario.setIdeia(this);
-		this.comentarios.add(comentario);
-	}
-
-	@JsonIgnore
-	@Override
-	public Tecnica getTecnica() {
-		return super.getTecnica();
 	}
 
 }

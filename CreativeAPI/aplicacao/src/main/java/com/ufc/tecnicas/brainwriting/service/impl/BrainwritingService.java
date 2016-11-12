@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import com.ufc.tecnicas.brainwriting.model.Avaliacao;
 import com.ufc.tecnicas.brainwriting.model.Brainwriting;
 import com.ufc.tecnicas.brainwriting.model.Comentario;
-import com.ufc.tecnicas.brainwriting.model.IdeiaBrainwriting;
-import com.ufc.tecnicas.brainwriting.repository.AvaliacaoRepository;
+import com.ufc.tecnicas.brainwriting.model.BrainwritingIdeia;
+import com.ufc.tecnicas.brainwriting.repository.BrainwritingAvaliacaoRepository;
 import com.ufc.tecnicas.brainwriting.repository.BrainwritingRepository;
-import com.ufc.tecnicas.brainwriting.repository.ComentarioRepository;
-import com.ufc.tecnicas.brainwriting.repository.IdeiaRepository;
+import com.ufc.tecnicas.brainwriting.repository.BrainwritingComentarioRepository;
+import com.ufc.tecnicas.brainwriting.repository.BrainwritingIdeiaRepository;
 import com.ufc.tecnicas.brainwriting.service.IBrainwritingService;
 import com.ufc.tecnicas.model.Ideia;
 import com.ufc.tecnicas.model.Pessoa;
@@ -25,13 +25,13 @@ public class BrainwritingService implements IBrainwritingService {
 	private BrainwritingRepository brainwritingRepository;
 
 	@Autowired
-	private IdeiaRepository ideiaRepository;
+	private BrainwritingIdeiaRepository ideiaRepository;
 
 	@Autowired
-	private AvaliacaoRepository avaliacaoRepository;
+	private BrainwritingAvaliacaoRepository avaliacaoRepository;
 
 	@Autowired
-	private ComentarioRepository comentarioRepository;
+	private BrainwritingComentarioRepository comentarioRepository;
 
 	@Override
 	public void adicionar(Brainwriting brainwriting) {
@@ -45,7 +45,7 @@ public class BrainwritingService implements IBrainwritingService {
 	}
 
 	@Override
-	public void vincularIdeia(Brainwriting brainwriting, IdeiaBrainwriting ideia) {
+	public void vincularIdeia(Brainwriting brainwriting, BrainwritingIdeia ideia) {
 		ideia.setTecnica(brainwriting);
 		ideiaRepository.save(ideia);
 	}
@@ -57,23 +57,23 @@ public class BrainwritingService implements IBrainwritingService {
 	}
 
 	@Override
-	public void adicionarAvaliacao(IdeiaBrainwriting ideia, Avaliacao avaliacao) {
+	public void adicionarAvaliacao(BrainwritingIdeia ideia, Avaliacao avaliacao) {
 		avaliacao.setIdeia(ideia);
 		avaliacaoRepository.save(avaliacao);
 	}
 
 	@Override
-	public void adicionarComentario(IdeiaBrainwriting ideia, Comentario comentario) {
+	public void adicionarComentario(BrainwritingIdeia ideia, Comentario comentario) {
 		comentario.setIdeia(ideia);
 		comentarioRepository.save(comentario);
 	}
 
 	@Override
-	public List<IdeiaBrainwriting> buscarIdeias(Brainwriting brainwriting) {
-		List<IdeiaBrainwriting> ideias = new ArrayList<>();
+	public List<BrainwritingIdeia> buscarIdeias(Brainwriting brainwriting) {
+		List<BrainwritingIdeia> ideias = new ArrayList<>();
 
 		for (Ideia ideia : brainwriting.getIdeias()) {
-			ideias.add((IdeiaBrainwriting) ideia);
+			ideias.add((BrainwritingIdeia) ideia);
 		}
 
 		return ideias;

@@ -3,11 +3,13 @@ package com.ufc.tecnicas.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
+@Table(name = "pessoa")
 public class Pessoa {
 
 	@Id

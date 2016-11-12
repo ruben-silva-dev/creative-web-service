@@ -24,6 +24,8 @@ public abstract class Ideia {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	private String titulo;
 
 	@Column(columnDefinition = "TEXT")
 	private String texto;
@@ -42,6 +44,14 @@ public abstract class Ideia {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getTexto() {
