@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.ufc.modulos.pessoas.IPessoaService;
 import com.ufc.tecnicas.brainwriting.model.Avaliacao;
 import com.ufc.tecnicas.brainwriting.model.Brainwriting;
+import com.ufc.tecnicas.brainwriting.model.BrainwritingIdeia;
 import com.ufc.tecnicas.brainwriting.model.BrainwritingViews;
 import com.ufc.tecnicas.brainwriting.model.Comentario;
-import com.ufc.tecnicas.brainwriting.model.BrainwritingIdeia;
 import com.ufc.tecnicas.brainwriting.service.IBrainwritingService;
 import com.ufc.tecnicas.model.Pessoa;
 
@@ -55,7 +55,7 @@ public class BrainwritingController {
 
 	@ApiOperation(value = "Adiciona um novo brainwriting")
 	@JsonView(BrainwritingViews.BrainwritingResumo.class)
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Brainwriting> adicionarBrainwriting(@RequestBody Brainwriting brainwriting) {
 		brainwritingService.adicionar(brainwriting);
 		return new ResponseEntity<>(brainwriting, HttpStatus.OK);
@@ -63,7 +63,7 @@ public class BrainwritingController {
 
 	@ApiOperation(value = "Atualiza as informações de um brainwriting existente")
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
-	@PostMapping(value = "/{idBrainwriting}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/{idBrainwriting}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Brainwriting> atualizarBrainwriting(@PathVariable Long idBrainwriting,
 			@RequestBody Brainwriting brainwriting) {
 		brainwritingService.alterar(idBrainwriting, brainwriting);
@@ -85,11 +85,12 @@ public class BrainwritingController {
 	}
 
 	@ApiOperation(value = "Vincula uma ideia a um brainwriting")
-	@PostMapping(value = "{idBrainwriting}/ideia", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> vincularNovaIdeia(@PathVariable("idBrainwriting") Brainwriting brainwriting,
-			@RequestBody BrainwritingIdeia ideia) {
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	@PostMapping(value = "{idBrainwriting}/ideia", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<BrainwritingIdeia> vincularNovaIdeia(
+			@PathVariable("idBrainwriting") Brainwriting brainwriting, @RequestBody BrainwritingIdeia ideia) {
 		brainwritingService.vincularIdeia(brainwriting, ideia);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(ideia, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Retorna todos os participantes de um brainwriting")
@@ -99,26 +100,29 @@ public class BrainwritingController {
 	}
 
 	@ApiOperation(value = "Vincula um participante a um brainwriting")
-	@PostMapping(value = "{idBrainwriting}/participante", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> vincularParticipante(@RequestBody Pessoa pessoa,
+	@JsonView(BrainwritingViews.BrainwritingResumo.class)
+	@PostMapping(value = "{idBrainwriting}/participante", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Brainwriting> vincularParticipante(@RequestBody Pessoa pessoa,
 			@PathVariable("idBrainwriting") Brainwriting brainwriting) {
 		brainwritingService.vincularParticipante(pessoa, brainwriting);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(brainwriting, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Adiciona uma nova avaliação a uma idéia existente")
-	@PostMapping(value = "ideia/{idIdeia}/avaliacao", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> adicionarAvaliacao(@PathVariable("idIdeia") BrainwritingIdeia ideia,
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	@PostMapping(value = "ideia/{idIdeia}/avaliacao", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Avaliacao> adicionarAvaliacao(@PathVariable("idIdeia") BrainwritingIdeia ideia,
 			@RequestBody Avaliacao avaliacao) {
 		brainwritingService.adicionarAvaliacao(ideia, avaliacao);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(avaliacao, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Adiciona um novo comentário a uma idéia existente")
-	@PostMapping(value = "ideia/{idIdeia}/comentario", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public HttpEntity<?> adicionarComentario(@PathVariable("idIdeia") BrainwritingIdeia ideia,
+	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
+	@PostMapping(value = "ideia/{idIdeia}/comentario", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public HttpEntity<Comentario> adicionarComentario(@PathVariable("idIdeia") BrainwritingIdeia ideia,
 			@RequestBody Comentario comentario) {
 		brainwritingService.adicionarComentario(ideia, comentario);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(comentario, HttpStatus.OK);
 	}
 }

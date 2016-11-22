@@ -86,9 +86,9 @@ public class BrainwritingIdeia extends Ideia {
 		this.avaliacoes = avaliacoes;
 	}
 
-	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	@JsonView({ BrainwritingViews.BrainwritingDetalhes.class })
 	public Integer numeroAvaliacoes() {
-		return avaliacoes.size();
+		return avaliacoes != null ? avaliacoes.size() : 0;
 	}
 
 	@JsonView(BrainwritingViews.IdeiaDetalhes.class)
@@ -102,7 +102,7 @@ public class BrainwritingIdeia extends Ideia {
 
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public Integer numeroComentarios() {
-		return comentarios.size();
+		return comentarios != null ? comentarios.size() : 0;
 	}
 
 }

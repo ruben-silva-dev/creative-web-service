@@ -43,13 +43,13 @@ public class Brainwriting extends Tecnica {
 	}
 
 	@Override
-	@JsonView({BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class})
+	@JsonView({ BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class })
 	public Long getId() {
 		return super.getId();
 	}
 
 	@Override
-	@JsonView({BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class})
+	@JsonView({ BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class })
 	public String getTitulo() {
 		return super.getTitulo();
 	}
@@ -69,7 +69,7 @@ public class Brainwriting extends Tecnica {
 		this.gatilho = gatilho;
 	}
 
-	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	@JsonView({ BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class })
 	public String getDescricao() {
 		return descricao;
 	}
@@ -78,7 +78,7 @@ public class Brainwriting extends Tecnica {
 		this.descricao = descricao;
 	}
 
-	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	@JsonView({ BrainwritingViews.BrainwritingResumo.class, BrainwritingViews.BrainwritingDetalhes.class })
 	public Fase getFase() {
 		return fase;
 	}
@@ -102,20 +102,20 @@ public class Brainwriting extends Tecnica {
 	public void setParticipantes(List<Pessoa> participantes) {
 		this.participantes = participantes;
 	}
-	
+
 	@JsonView(BrainwritingViews.BrainwritingResumo.class)
-	public Integer numeroParticipantes(){
+	public Integer numeroParticipantes() {
 		return participantes != null ? participantes.size() : 0;
 	}
-	
+
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	public List<PessoaBrainwriting> participantes() {
 		List<PessoaBrainwriting> aux = new ArrayList<>();
-		
-		for(Pessoa pessoa : participantes){
+
+		for (Pessoa pessoa : participantes) {
 			aux.add(new PessoaBrainwriting(pessoa));
 		}
-		
+
 		return aux;
 	}
 
@@ -126,12 +126,12 @@ public class Brainwriting extends Tecnica {
 
 		this.participantes.add(pessoa);
 	}
-	
+
 	@JsonView(BrainwritingViews.BrainwritingResumo.class)
-	public Integer numeroIdeias(){ 
+	public Integer numeroIdeias() {
 		return ideias != null ? ideias.size() : 0;
 	}
-	
+
 	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	@Override
 	public List<Ideia> getIdeias() {
