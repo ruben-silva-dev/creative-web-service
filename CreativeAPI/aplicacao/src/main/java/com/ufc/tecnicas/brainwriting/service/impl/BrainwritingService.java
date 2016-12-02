@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.ufc.tecnicas.brainwriting.model.Avaliacao;
 import com.ufc.tecnicas.brainwriting.model.Brainwriting;
-import com.ufc.tecnicas.brainwriting.model.Comentario;
 import com.ufc.tecnicas.brainwriting.model.BrainwritingIdeia;
+import com.ufc.tecnicas.brainwriting.model.Comentario;
 import com.ufc.tecnicas.brainwriting.repository.BrainwritingAvaliacaoRepository;
-import com.ufc.tecnicas.brainwriting.repository.BrainwritingRepository;
 import com.ufc.tecnicas.brainwriting.repository.BrainwritingComentarioRepository;
 import com.ufc.tecnicas.brainwriting.repository.BrainwritingIdeiaRepository;
+import com.ufc.tecnicas.brainwriting.repository.BrainwritingRepository;
 import com.ufc.tecnicas.brainwriting.service.IBrainwritingService;
 import com.ufc.tecnicas.model.Ideia;
 import com.ufc.tecnicas.model.Pessoa;
@@ -40,7 +40,14 @@ public class BrainwritingService implements IBrainwritingService {
 
 	@Override
 	public void alterar(Long idBrainwriting, Brainwriting brainwriting) {
+		Brainwriting aux = brainwritingRepository.findOne(idBrainwriting);
+		
 		brainwriting.setId(idBrainwriting);
+		brainwriting.setIdeias(aux.getIdeias());
+		brainwriting.setFacilitador(aux.getFacilitador());
+		brainwriting.setParticipantes(aux.getParticipantes());
+		brainwriting.setTipo(aux.getTipo());
+		
 		brainwritingRepository.save(brainwriting);
 	}
 
