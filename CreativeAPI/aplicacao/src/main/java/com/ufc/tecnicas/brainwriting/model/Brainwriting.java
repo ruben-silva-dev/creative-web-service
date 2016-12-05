@@ -94,6 +94,12 @@ public class Brainwriting extends Tecnica {
 	public void setFacilitador(Pessoa facilitador) {
 		this.facilitador = facilitador;
 	}
+	
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
+	public PessoaBrainwriting facilitador(){
+		PessoaBrainwriting pessoaBrainwriting = new PessoaBrainwriting(facilitador);
+		return pessoaBrainwriting;
+	}
 
 	public List<Pessoa> getParticipantes() {
 		return participantes;
