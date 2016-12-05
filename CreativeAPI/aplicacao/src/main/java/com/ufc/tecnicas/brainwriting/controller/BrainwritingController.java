@@ -40,7 +40,7 @@ public class BrainwritingController {
 	private IPessoaService pessoaService;
 
 	@ApiOperation(value = "Retorna todos os brainwriting de uma pessoa", notes = "O método retorna tanto os brainwriting que uma pessoa modera quanto aqueles que ela participa.")
-	@JsonView(BrainwritingViews.BrainwritingResumo.class)
+	@JsonView(BrainwritingViews.BrainwritingDetalhes.class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<Brainwriting> getBrainwriting(@RequestParam("idPessoa") Pessoa pessoa) {
 		return brainwritingService.buscarBrainwritingPorPessoa(pessoa);
