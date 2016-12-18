@@ -10,12 +10,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ufc.json.CalendarDeserialize;
-import com.ufc.json.CalendarSerialize;
-import com.ufc.modulos.relacionamento.RelacionamentoViews;
+import com.ufc.util.json.CalendarDeserialize;
+import com.ufc.util.json.CalendarSerialize;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -24,7 +22,7 @@ public abstract class Ideia {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String titulo;
 
 	@Column(columnDefinition = "TEXT")
@@ -37,7 +35,6 @@ public abstract class Ideia {
 	@ManyToOne
 	private Tecnica tecnica;
 
-	@JsonView(RelacionamentoViews.RelacionamentoView.class)
 	public Long getId() {
 		return id;
 	}

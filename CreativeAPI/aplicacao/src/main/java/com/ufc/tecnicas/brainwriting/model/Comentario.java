@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ufc.json.CalendarDeserialize;
-import com.ufc.json.CalendarSerialize;
 import com.ufc.tecnicas.model.Pessoa;
+import com.ufc.util.json.CalendarDeserialize;
+import com.ufc.util.json.CalendarSerialize;
 
 @Entity
 @Table(name = "brainwriting_comentario")
